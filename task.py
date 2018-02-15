@@ -9,31 +9,42 @@ import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import metrics
-#from sqlalchemy import create_engine
+from sqlalchemy import create_engine
 
 
 # In[2]:
-#engine = create_engine("mysql+mysqldb://root:"+'lbr123'+"@localhost/student")
+engine = create_engine("mysql+mysqldb://root:"+'lbr123'+"@localhost/student")
 
 
 # In[3]:
 
 
-#df = pd.read_sql('SELECT * FROM main', con=engine, index_col=['index'])
+df = pd.read_sql('SELECT * FROM main', con=engine, index_col=['index'])
 
-df = pd.read_csv("student-mat_new.csv",sep=";")
+#df = pd.read_csv("student-mat_new.csv",sep=";")
 
 # In[60]:
 
 
-#clusters = input("Enter Number of clusters?")
-clusters = 3
+clusters = input("Enter Number of clusters?")
+#clusters = 3
 max_iter = 500
 instance = 0
 
 
 # In[4]:
 
+def table(show):
+	#------------------- updated code ------------------------------------
+	ck=show['Clusters'].unique()
+	suc=show['Success'].unique()
+	#print(len(show['Clusters'] == 0))
+	for i in ck:
+		for j in suc:
+			print("Cluster: "+str(i)+" Success: "+str(j))
+			print(str(len(show[(show['Clusters'] == i) & (show['Success']==j)])/len(show['Clusters'] == i)*100)+"%")
+	print(show)
+#------------------- updated code ------------------------------------
 
 #df = pd.read_csv("student-mat_new.csv",sep=";")
 df.head()
@@ -174,7 +185,7 @@ plt.scatter(x=temp['CGPA'],y=y,c = colorMap[kmean.labels_],s=40)
 plt.title("CGPA vs Success")
 plt.xlabel("Success")
 plt.ylabel("CGPA")
-plt.show()
+#plt.show()
 
 
 
@@ -185,19 +196,9 @@ show = pd.DataFrame()
 show['CGPA'] = temp['CGPA']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-#------------------- updated code ------------------------------------
-ck=show['Clusters'].unique()
-suc=show['Success'].unique()
-#print(len(show['Clusters'] == 0))
-for i in ck:
-	for j in suc:
-		print("Cluster: "+str(i)+" Success: "+str(j))
-		print(str(len(show[(show['Clusters'] == i) & (show['Success']==j)])/len(show['Clusters'] == i)*100)+"%")
-print(show)
-#------------------- updated code ------------------------------------
+table(show)
 
 # In[21]:
-"""
 
 plt.scatter(x=temp['famsup'],y=y,c = colorMap[kmean.labels_],s=40)
 plt.title("FamilySupport vs Success")
@@ -213,7 +214,7 @@ show = pd.DataFrame()
 show['famsup'] = temp['famsup']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-print(show)
+table(show)
 
 # In[23]:
 
@@ -232,8 +233,7 @@ show = pd.DataFrame()
 show['absences'] = temp['absences']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-print(show)
-
+table(show)
 # In[25]:
 
 
@@ -251,8 +251,7 @@ show = pd.DataFrame()
 show['skills'] = temp['skills']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-print(show)
-
+table(show)
 # In[27]:
 
 
@@ -270,8 +269,7 @@ show = pd.DataFrame()
 show['paid'] = temp['paid']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-print(show)
-
+table(show)
 # In[29]:
 
 
@@ -289,8 +287,7 @@ show = pd.DataFrame()
 show['age'] = temp['age']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-print(show)
-
+table(show)
 # In[31]:
 
 
@@ -308,7 +305,7 @@ show = pd.DataFrame()
 show['gender'] = temp['sex']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-print(show)
+table(show)
 
 # In[33]:
 
@@ -327,7 +324,7 @@ show = pd.DataFrame()
 show['health'] = temp['health']
 show['Success'] = y
 show['Clusters'] = kmean.labels_
-print(show)
+table(show)
 
 # In[35]:
 
@@ -348,7 +345,7 @@ show['Success'] = y
 show['Clusters'] = kmean.labels_
 
 
-print(show)
+table(show)
 
 
 # In[37]:
